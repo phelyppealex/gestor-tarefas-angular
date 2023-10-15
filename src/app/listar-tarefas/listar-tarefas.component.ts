@@ -2,42 +2,42 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TarefaService } from '../tarefa.service';
 import { DadosTarefaResponse } from '../dados-tarefa';
-import { ItemTarefaComponent } from '../item-tarfa/item-tarefa.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listar-tarefas',
   standalone: true,
   imports: [
     CommonModule,
-    ItemTarefaComponent
   ],
   template: `
-    <div class="container text-center">
-      <div class="row align-items-end">
-        <div class="col">
-          ID
-        </div>
-        <div class="col">
-          Título
-        </div>
-        <div class="col">
-          Responsável
-        </div>
-        <div class="col">
-          Ações
-        </div>
-      </div>
-      <app-item-tarefa
-        *ngFor="let dadoTarefa of dadosTarefaList"
-        [dadosTarefa]="dadoTarefa"
-      ></app-item-tarefa>
-    </div>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>Título</td>
+          <td>Responsável</td>
+          <td>Ações</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dadoTarefa of dadosTarefaList">
+          <td>{{ dadoTarefa.id }}</td>
+          <td>{{ dadoTarefa.titulo }}</td>
+          <td>{{ dadoTarefa.funcionario.nome }}</td>
+          <td>
+            <a href="/" (click)="deletar(dadoTarefa.id)">Deletar</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   `,
   styleUrls: ['./listar-tarefas.component.css']
 })
 export class ListarTarefasComponent {
   tarefaService: TarefaService = inject(TarefaService);
   dadosTarefaList: DadosTarefaResponse[] = [];
+  
 
   constructor(){
     this.tarefaService.getTarefas()
@@ -46,5 +46,11 @@ export class ListarTarefasComponent {
         this.dadosTarefaList = dadosTarefa;
       }
     );
+  }
+
+  deletar(id: number){
+    if(window.confirm('Tem certeza que deseja deletar a tarefa?')){
+      this.tarefaService.deleteById(id);
+    }
   }
 }
