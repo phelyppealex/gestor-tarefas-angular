@@ -18,7 +18,7 @@ import { ItemTarefaComponent } from '../item-tarfa/item-tarefa.component';
           ID
         </div>
         <div class="col">
-          Titulo
+          Título
         </div>
         <div class="col">
           Responsável
@@ -32,7 +32,6 @@ import { ItemTarefaComponent } from '../item-tarfa/item-tarefa.component';
         [dadosTarefa]="dadoTarefa"
       ></app-item-tarefa>
     </div>
-    
   `,
   styleUrls: ['./listar-tarefas.component.css']
 })
@@ -45,7 +44,6 @@ export class ListarTarefasComponent {
     .then(
       (dadosTarefa: DadosTarefaResponse[]) => {
         this.dadosTarefaList = dadosTarefa;
-        console.log(this.dadosTarefaList);
       }
     );
   }

@@ -6,7 +6,7 @@ const routeConfig: Routes = [
     {
         path: '',
         component: ListarTarefasComponent,
-        title: 'Home page'
+        title: 'Página Inicial'
     },
     {
         path: 'cadastrar-tarefa',
