@@ -57,17 +57,14 @@ export class CadastrarTarefaComponent {
   dadosTarefa!: DadosTarefaRequest;
 
   constructor(){
-    this.funcionarioService.getFuncionarios()
-    .then(
-      (dadosFuncionario: DadosFuncionario[]) => {
-        this.dadosFuncionarioList = dadosFuncionario;
-      }
-    );
+    this.funcionarioService.getFuncionarios().then((dadosFuncionario: DadosFuncionario[]) => {
+      this.dadosFuncionarioList = dadosFuncionario;
+    });
   }
 
   submeterForm(){
     const campo = this.aplicaForm.value;
-    console.log(campo.inputData);
+
     this.dadosTarefa = {
       id: 0,
       titulo: campo.inputTitulo ?? '',
@@ -77,6 +74,8 @@ export class CadastrarTarefaComponent {
       prazo: campo.inputData ?? '',
       funcionario_id: campo.inputFuncionario
     };
+
+    console.log(this.dadosTarefa);
     
     this.tarefaService.cadastrarTarefa(this.dadosTarefa);
   }

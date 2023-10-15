@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
           <td>ID</td>
           <td>Título</td>
           <td>Responsável</td>
+          <td>Status</td>
           <td>Ações</td>
         </tr>
       </thead>
@@ -25,8 +26,11 @@ import { Router } from '@angular/router';
           <td>{{ dadoTarefa.id }}</td>
           <td>{{ dadoTarefa.titulo }}</td>
           <td>{{ dadoTarefa.funcionario.nome }}</td>
+          <td>{{ dadoTarefa.status }}</td>
           <td>
-            <a href="/" (click)="deletar(dadoTarefa.id)">Deletar</a>
+            <a href="/" (click)="deletar(dadoTarefa.id)">Deletar</a>|
+            <a href="/editar-tarefa/{{ dadoTarefa.id }}">Editar</a>|
+            <a href="/" (click)="concluir(dadoTarefa.id)">Concluir</a>
           </td>
         </tr>
       </tbody>
@@ -40,17 +44,18 @@ export class ListarTarefasComponent {
   
 
   constructor(){
-    this.tarefaService.getTarefas()
-    .then(
-      (dadosTarefa: DadosTarefaResponse[]) => {
-        this.dadosTarefaList = dadosTarefa;
-      }
-    );
+    this.tarefaService.getTarefas().then((dadosTarefa: DadosTarefaResponse[]) => {
+      this.dadosTarefaList = dadosTarefa;
+    });
   }
 
   deletar(id: number){
     if(window.confirm('Tem certeza que deseja deletar a tarefa?')){
       this.tarefaService.deleteById(id);
     }
+  }
+
+  concluir(id: number){
+    this.tarefaService.concluirTarefa(id);
   }
 }

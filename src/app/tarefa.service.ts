@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export class TarefaService {
   readonly url = 'http://localhost:8080/tarefa/'
   router: Router;
+  dadoTarefa!: DadosTarefaResponse;
 
   constructor(router: Router){
     this.router = router;
@@ -18,8 +19,13 @@ export class TarefaService {
     return await data.json() ?? [];
   }
 
-  cadastrarTarefa(dadosTarefa: DadosTarefaRequest){
-    fetch(this.url,{
+  async getTarefaById(id: number): Promise<DadosTarefaResponse> {
+    const data = await fetch(`${this.url}${id}`);
+    return await data.json();
+  }
+
+  async cadastrarTarefa(dadosTarefa: DadosTarefaRequest){
+    const data = await fetch(this.url,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,6 +38,35 @@ export class TarefaService {
         }
       }
     );
+    this.router.navigate(['']);
+  }
+
+  async atualizar(dadosTarefa: DadosTarefaRequest){
+    const data = await fetch(this.url,{
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dadosTarefa)
+    });
+    this.router.navigate(['']);
+  }
+
+  async concluirTarefa(id: number){
+    const data = await fetch(`${this.url}${id}`);
+    const tarefa = await data.json();
+    console.log(tarefa.id);
+    const tarefaConcluida: DadosTarefaRequest = {
+      id: tarefa.id,
+      titulo: tarefa.titulo,
+      descricao: tarefa.descricao,
+      prioridade: tarefa.prioridade,
+      status: 'Concluída',
+      prazo: tarefa.prazo,
+      funcionario_id: tarefa.funcionario.id
+    };
+
+    await this.atualizar(tarefaConcluida);
     this.router.navigate(['']);
   }
 
