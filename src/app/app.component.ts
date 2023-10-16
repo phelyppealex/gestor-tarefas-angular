@@ -23,22 +23,15 @@ import { CadastrarTarefaComponent } from './cadastrar-tarefa/cadastrar-tarefa.co
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" [routerLink]="['/cadastrar-tarefa']">Cadastrar Tarefa</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="/cadastrar-funcionario">Cadastrar Funcionário</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Menu Tarefa
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" [routerLink]="['/cadastrar-tarefa']">Cadastrar Tarefa</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <li><a class="dropdown-item" href="/cadastrar-tarefa">Cadastrar Tarefa</a></li>
+                  <li><a class="dropdown-item" href="/">Listar Tarefas</a></li>
                 </ul>
               </li>
             </ul>

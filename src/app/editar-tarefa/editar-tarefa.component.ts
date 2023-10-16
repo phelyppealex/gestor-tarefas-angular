@@ -21,7 +21,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
       <input type="text" name="" id="input-titulo" formControlName="inputTitulo" [(ngModel)]="dadoTarefa.titulo"><br>
 
       <label for="input-descricao">Descrição</label><br>
-      <input type="text" name="" id="input-descricao" formControlName="inputDescricao" [(ngModel)]="dadoTarefa.descricao"><br>
+      <input type="text" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao" [(ngModel)]="dadoTarefa.descricao"><br>
 
       <label for="">Prioridade</label><br>
       <select [(ngModel)]="dadoTarefa.prioridade" name="" id="input-prioridade" formControlName="inputPrioridade">

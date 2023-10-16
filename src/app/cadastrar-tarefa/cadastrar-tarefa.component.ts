@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ItemFuncionarioComponent } from '../item-funcionario/item-funcionario.component';
 import { FuncionarioService } from '../funcionario.service';
 import { DadosFuncionario } from '../dados-funcionario';
 import { DadosTarefaRequest } from '../dados-tarefa';
@@ -12,7 +11,6 @@ import { TarefaService } from '../tarefa.service';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    ItemFuncionarioComponent,
     CommonModule
   ],
   template: `
@@ -21,7 +19,7 @@ import { TarefaService } from '../tarefa.service';
       <input type="text" name="" id="input-titulo" formControlName="inputTitulo"><br>
 
       <label for="input-descricao">Descrição</label><br>
-      <input type="text" name="" id="input-descricao" formControlName="inputDescricao"><br>
+      <input type="text" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao"><br>
 
       <label for="">Prioridade</label><br>
       <select name="" id="input-prioridade" formControlName="inputPrioridade">
