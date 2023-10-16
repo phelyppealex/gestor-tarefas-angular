@@ -30,16 +30,19 @@ ng serve
 
 As requisições podem ser feitas da seguinte maneira:
 
+
+Funcionário POST
+`http://localhost:8080/funcionario/`
 ~~~json
-// Funcionário
-// http://localhost:8080/funcionario/
 {
 	"nome": "Anderson Costa",
 	"telefone": "(84) 99410-3474",
 	"email": "andersoncosta@gmail.com"
 }
-// Tarefa
-// http://localhost:8080/tarefa/
+~~~
+Tarefa POST
+`http://localhost:8080/tarefa/`
+~~~json
 {
 	"titulo": "Configurar os CORS",
 	"descricao": "É preciso configurá-lo para poder comunicar com o front",
