@@ -2,15 +2,45 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TarefaService } from '../tarefa.service';
 import { DadosTarefaResponse } from '../dados-tarefa';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FuncionarioService } from '../funcionario.service';
+import { DadosFuncionario } from '../dados-funcionario';
 
 @Component({
   selector: 'app-listar-tarefas',
   standalone: true,
   imports: [
-    CommonModule,
+    ReactiveFormsModule,
+    CommonModule
   ],
   template: `
+    <section [formGroup]="aplicarForm" class="filtro">
+    <h4>Filtrar tarefas</h4>
+
+      <form (submit)="filtrarResults()">
+        <label for="input-id">ID</label><br>
+        <input type="text" id="input-id" formControlName="inputId"><br>
+
+        <label for="input-descricao">Título/Descrição</label><br>
+        <input type="text" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao"><br>
+
+        <label for="input-funcionario">Responsável: </label><br>
+        <select name="" id="input-funcionario" formControlName="inputFuncionario">
+          <option value="{{ func.id }}" *ngFor="let func of dadosFunionarioList">{{ func.nome }}</option>
+        </select><br>
+
+        <label for="input-status">Status: </label><br>
+        <select name="" id="input-status" formControlName="inputStatus">
+          <option value="Em andamento">Em andamento</option>
+          <option value="Concluída">Concluída</option>
+        </select><br>
+
+        <button type="submit">Buscar</button><br>
+      </form>
+    </section>
+
+    <h4>Lista de tarefas</h4>
     <table class="table table-dark table-striped">
       <thead>
         <tr>
@@ -22,7 +52,7 @@ import { Router } from '@angular/router';
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let dadoTarefa of dadosTarefaList">
+        <tr *ngFor="let dadoTarefa of filteredDadosTarefaList">
           <td>{{ dadoTarefa.id }}</td>
           <td>{{ dadoTarefa.titulo }}</td>
           <td>{{ dadoTarefa.funcionario.nome }}</td>
@@ -39,13 +69,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./listar-tarefas.component.css']
 })
 export class ListarTarefasComponent {
+  funcionarioService: FuncionarioService = inject(FuncionarioService);
+  dadosFunionarioList: DadosFuncionario[] = [];
   tarefaService: TarefaService = inject(TarefaService);
   dadosTarefaList: DadosTarefaResponse[] = [];
+  filteredDadosTarefaList: DadosTarefaResponse[] = [];
+  aplicarForm = new FormGroup({
+    inputId: new FormControl(0),
+    inputDescricao: new FormControl(''),
+    inputStatus: new FormControl(''),
+    inputFuncionario: new FormControl(0)
+  });
   
 
   constructor(){
     this.tarefaService.getTarefas().then((dadosTarefa: DadosTarefaResponse[]) => {
       this.dadosTarefaList = dadosTarefa;
+      this.filteredDadosTarefaList = this.dadosTarefaList;
+    });
+    
+    this.funcionarioService.getFuncionarios().then((dadosFuncionario: DadosFuncionario[]) => {
+      this.dadosFunionarioList = dadosFuncionario;
     });
   }
 
@@ -57,5 +101,35 @@ export class ListarTarefasComponent {
 
   concluir(id: number){
     this.tarefaService.concluirTarefa(id);
+  }
+
+  filtrarResults(){
+    const campo = this.aplicarForm.value;
+    this.filteredDadosTarefaList = this.dadosTarefaList;
+
+    if(campo.inputId != 0){
+      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
+        filteredDadosTarefa => filteredDadosTarefa.id == campo.inputId
+      );
+    }
+    if(campo.inputFuncionario != 0){
+      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
+        filteredDadosTarefa => filteredDadosTarefa.funcionario.id == campo.inputFuncionario
+      );
+    }
+    if(campo.inputDescricao != ''){
+      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
+        filteredDadosTarefa => filteredDadosTarefa.titulo.toLowerCase().includes(campo.inputDescricao!.toLowerCase())
+      );
+
+      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
+        filteredDadosTarefa => filteredDadosTarefa.descricao.toLowerCase().includes(campo.inputDescricao!.toLowerCase())
+      );
+    }
+    if(campo.inputStatus != ''){
+      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
+        filteredDadosTarefa => filteredDadosTarefa.status.toLowerCase().includes(campo.inputStatus!.toLowerCase())
+      );
+    }
   }
 }

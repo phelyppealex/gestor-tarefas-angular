@@ -19,6 +19,11 @@ Primeiro certifique-se de ter baixado os dois projetos linkados anteriormente.
 
 ### Angular
 - Tenha o Node.js instalado em sua máquina, abra o terminal no diretório do projeto e rode o seguinte comando no terminal:
+
 ~~~
 ng serve
 ~~~
+
+## O que foi feito?
+
+Do lado do back-end, foi feito uma aplicação com endpoints em REST, dividida em 

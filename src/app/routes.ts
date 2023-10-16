@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { ListarTarefasComponent } from './listar-tarefas/listar-tarefas.component';
 import { CadastrarTarefaComponent } from './cadastrar-tarefa/cadastrar-tarefa.component';
 import { EditarTarefaComponent } from './editar-tarefa/editar-tarefa.component';
-import { CadastroFuncionarioComponent } from './cadastro-funcionario/cadastro-funcionario.component';
+import { CadastrarFuncionarioComponent } from './cadastrar-funcionario/cadastrar-funcionario.component';
 
 const routeConfig: Routes = [
     {
@@ -22,7 +22,7 @@ const routeConfig: Routes = [
     },
     {
         path: 'cadastrar-funcionario',
-        component: CadastroFuncionarioComponent,
+        component: CadastrarFuncionarioComponent,
         title: 'Cadastrar Funcionário'
     }
 ];

@@ -14,6 +14,8 @@ import { TarefaService } from '../tarefa.service';
     CommonModule
   ],
   template: `
+    <h4>Cadastro de Tarefa</h4>
+
     <form [formGroup]="aplicaForm" (submit)="submeterForm()">
       <label for="input-titulo">Título</label><br>
       <input type="text" name="" id="input-titulo" formControlName="inputTitulo"><br>
@@ -21,8 +23,8 @@ import { TarefaService } from '../tarefa.service';
       <label for="input-descricao">Descrição</label><br>
       <input type="text" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao"><br>
 
-      <label for="">Prioridade</label><br>
-      <select name="" id="input-prioridade" formControlName="inputPrioridade">
+      <label for="input-prioridade">Prioridade</label><br>
+      <select name="" id="input-prioridade" formControlName="inputPrioridade" required>
         <option value="Baixa">Baixa</option>
         <option value="Média">Média</option>
         <option value="Alta">Alta</option>
