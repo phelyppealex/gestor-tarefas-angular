@@ -17,28 +17,37 @@ import { TarefaService } from '../tarefa.service';
     <h4>Cadastro de Tarefa</h4>
 
     <form [formGroup]="aplicaForm" (submit)="submeterForm()">
-      <label for="input-titulo">Título</label><br>
-      <input type="text" name="" id="input-titulo" formControlName="inputTitulo"><br>
+      <div class="form-floating">
+      <input type="text" class="form-control" name="" id="input-titulo" formControlName="inputTitulo">
+      <label class="form-label" for="input-titulo">Título</label>
+      </div>
+      <br>
 
-      <label for="input-descricao">Descrição</label><br>
-      <input type="text" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao"><br>
+      <div class="form-floating">
+      <input type="text" class="form-control" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao">
+      <label class="form-label" for="input-descricao">Descrição</label>
+      </div>
+      <br>
 
-      <label for="input-prioridade">Prioridade</label><br>
-      <select name="" id="input-prioridade" formControlName="inputPrioridade" required>
+      <label class="form-label" for="input-prioridade">Prioridade</label><br>
+      <select class="form-select" name="" id="input-prioridade" formControlName="inputPrioridade" required>
         <option value="Baixa">Baixa</option>
         <option value="Média">Média</option>
         <option value="Alta">Alta</option>
       </select><br>
 
-      <label for="input-data">Prazo</label><br>
-      <input type="date" name="" id="input-data" formControlName="inputData"><br>
+      <div class="form-floating">
+        <input type="date" class="form-control" name="" id="input-data" formControlName="inputData">
+        <label class="form-label" for="input-data">Prazo</label>
+      </div>
+      <br>
 
-      <label for="input-funcionario">Selecione o funcionário</label><br>
-      <select name="" id="input-funcionario" formControlName="inputFuncionario">
+      <label class="form-label" for="input-funcionario">Selecione o funcionário</label><br>
+      <select class="form-select" name="" id="input-funcionario" formControlName="inputFuncionario">
         <option *ngFor="let func of dadosFuncionarioList" value="{{ func.id }}">{{ func.nome }}</option>
       </select><br>
 
-      <button type="submit">Cadastrar Tarefa</button><br>
+      <button class="btn btn-dark" type="submit">Cadastrar Tarefa</button><br>
     </form>
   `,
   styleUrls: ['./cadastrar-tarefa.component.css']

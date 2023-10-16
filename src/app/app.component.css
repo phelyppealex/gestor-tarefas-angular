@@ -1,3 +1,6 @@
 .container{
     padding: 1em 0;
 }
+input[type="submit"]{
+    background-color: rgb(187, 39, 167);
+}

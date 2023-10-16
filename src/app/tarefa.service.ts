@@ -55,7 +55,6 @@ export class TarefaService {
   async concluirTarefa(id: number){
     const data = await fetch(`${this.url}${id}`);
     const tarefa = await data.json();
-    console.log(tarefa.id);
     const tarefaConcluida: DadosTarefaRequest = {
       id: tarefa.id,
       titulo: tarefa.titulo,
@@ -66,7 +65,13 @@ export class TarefaService {
       funcionario_id: tarefa.funcionario.id
     };
 
-    await this.atualizar(tarefaConcluida);
+    const data1 = await fetch(this.url,{
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(tarefaConcluida)
+    });
     this.router.navigate(['']);
   }
 

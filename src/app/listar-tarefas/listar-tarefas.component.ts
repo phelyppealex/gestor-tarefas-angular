@@ -19,24 +19,30 @@ import { DadosFuncionario } from '../dados-funcionario';
     <h4>Filtrar tarefas</h4>
 
       <form (submit)="filtrarResults()">
-        <label for="input-id">ID</label><br>
-        <input type="text" id="input-id" formControlName="inputId"><br>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="input-id" formControlName="inputId">
+          <label class="form-label" for="input-id">ID</label>
+        </div>
+        <br>
 
-        <label for="input-descricao">Título/Descrição</label><br>
-        <input type="text" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao"><br>
+        <div class="form-floating">
+          <input type="text" class="form-control" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao">
+          <label class="form-label" for="input-descricao">Título/Descrição</label>
+        </div>
+        <br>
 
-        <label for="input-funcionario">Responsável: </label><br>
-        <select name="" id="input-funcionario" formControlName="inputFuncionario">
+        <label class="form-label" for="input-funcionario">Responsável: </label><br>
+        <select class="form-select" name="" id="input-funcionario" formControlName="inputFuncionario">
           <option value="{{ func.id }}" *ngFor="let func of dadosFunionarioList">{{ func.nome }}</option>
         </select><br>
 
-        <label for="input-status">Status: </label><br>
-        <select name="" id="input-status" formControlName="inputStatus">
+        <label class="form-label" for="input-status">Status: </label><br>
+        <select class="form-select" name="" id="input-status" formControlName="inputStatus">
           <option value="Em andamento">Em andamento</option>
           <option value="Concluída">Concluída</option>
         </select><br>
 
-        <button type="submit">Buscar</button><br>
+        <button class="btn btn-dark" type="submit">Aplicar</button><br><br>
       </form>
     </section>
 

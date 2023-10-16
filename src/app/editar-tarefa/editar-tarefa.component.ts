@@ -17,28 +17,40 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   ],
   template: `
     <form [formGroup]="aplicaForm" (submit)="submeterForm()">
-      <label for="input-titulo">Título</label><br>
-      <input type="text" name="" id="input-titulo" formControlName="inputTitulo" [(ngModel)]="dadoTarefa.titulo"><br>
+      <div class="form-floating">
+        <input type="text" class="form-control" name="" id="input-titulo" formControlName="inputTitulo" [(ngModel)]="dadoTarefa.titulo">
+        <label class="form-label" for="input-titulo">Título</label>
+      </div>
+      <br>
 
-      <label for="input-descricao">Descrição</label><br>
-      <input type="text" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao" [(ngModel)]="dadoTarefa.descricao"><br>
+      <div class="form-floating">
+        <input type="text" class="form-control" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao" [(ngModel)]="dadoTarefa.descricao">
+        <label class="form-label" for="input-descricao">Descrição</label>
+      </div>
+      <br>
 
-      <label for="">Prioridade</label><br>
-      <select [(ngModel)]="dadoTarefa.prioridade" name="" id="input-prioridade" formControlName="inputPrioridade">
+      <label for="input-status"></label>
+      <select class="form-select" [(ngModel)]="dadoTarefa.status" id="input-status" formControlName="inputStatus">
+        <option value="Em andamento">Em andamento</option>
+        <option value="Concluída">Concluída</option>
+      </select>
+
+      <label class="form-label" for="">Prioridade</label><br>
+      <select class="form-select" [(ngModel)]="dadoTarefa.prioridade" name="" id="input-prioridade" formControlName="inputPrioridade">
         <option value="Baixa">Baixa</option>
         <option value="Média">Média</option>
         <option value="Alta">Alta</option>
       </select><br>
 
-      <label for="input-data">Prazo</label><br>
-      <input type="date" name="" id="input-data" [(ngModel)]="dadoTarefa.prazo" formControlName="inputData"><br>
+      <label class="form-label" for="input-data">Prazo</label><br>
+      <input type="date" class="form-control" name="" id="input-data" [(ngModel)]="dadoTarefa.prazo" formControlName="inputData"><br>
 
-      <label for="input-funcionario">O responsável atualmente é <b>{{ dadoTarefa.funcionario.nome }}</b>, você pode alterar no campo abaixo:</label><br>
-      <select name="" id="input-funcionario" formControlName="inputFuncionario">
+      <label class="form-label" for="input-funcionario">O responsável atualmente é <b>{{ dadoTarefa.funcionario.nome }}</b>, você pode alterar no campo abaixo:</label><br>
+      <select class="form-select" name="" id="input-funcionario" formControlName="inputFuncionario" required>
         <option *ngFor="let func of dadosFuncionarioList" value="{{ func.id }}">{{ func.nome }}</option>
       </select><br>
 
-      <button type="submit">Editar Tarefa</button><br>
+      <button class="btn btn-dark" type="submit">Editar Tarefa</button><br>
     </form>
   `,
   styleUrls: ['./editar-tarefa.component.css']
@@ -56,7 +68,8 @@ export class EditarTarefaComponent {
     inputDescricao: new FormControl(''),
     inputPrioridade: new FormControl(''),
     inputData: new FormControl(''),
-    inputFuncionario: new FormControl()
+    inputFuncionario: new FormControl(),
+    inputStatus: new FormControl('')
   });
 
   constructor(){
@@ -77,7 +90,7 @@ export class EditarTarefaComponent {
       titulo: campo.inputTitulo ?? '',
       descricao: campo.inputDescricao ?? '',
       prioridade: campo.inputPrioridade ?? '',
-      status: 'Em andamento',
+      status: campo.inputStatus ?? '',
       prazo: campo.inputData ?? '',
       funcionario_id: campo.inputFuncionario
     };
