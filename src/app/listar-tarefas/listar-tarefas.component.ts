@@ -15,10 +15,10 @@ import { DadosFuncionario } from '../dados-funcionario';
     CommonModule
   ],
   template: `
-    <section [formGroup]="aplicarForm" class="filtro">
-    <h4>Filtrar tarefas</h4>
+    <section class="filtro">
+      <h4>Filtrar tarefas</h4>
 
-      <form (submit)="filtrarResults()">
+      <form [formGroup]="aplicarForm" (submit)="filtrarResults()">
         <div class="form-floating">
           <input type="text" class="form-control" id="input-id" formControlName="inputId">
           <label class="form-label" for="input-id">ID</label>
@@ -42,7 +42,7 @@ import { DadosFuncionario } from '../dados-funcionario';
           <option value="Concluída">Concluída</option>
         </select><br>
 
-        <button class="btn btn-dark" type="submit">Aplicar</button><br><br>
+        <button class="btn btn-dark" type="submit">Aplicar</button> <button class="btn btn-secondary" (click)="resetarFiltro()">Resetar</button> <br><br>
       </form>
     </section>
 
@@ -109,6 +109,16 @@ export class ListarTarefasComponent {
     this.tarefaService.concluirTarefa(id);
   }
 
+  resetarFiltro(){
+    let campo = this.aplicarForm.value;
+    campo.inputId = 0;
+    campo.inputDescricao = '';
+    campo.inputStatus = '';
+    campo.inputFuncionario = 0;
+
+    this.filtrarResults();
+  }
+  
   filtrarResults(){
     const campo = this.aplicarForm.value;
     this.filteredDadosTarefaList = this.dadosTarefaList;
@@ -125,11 +135,7 @@ export class ListarTarefasComponent {
     }
     if(campo.inputDescricao != ''){
       this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
-        filteredDadosTarefa => filteredDadosTarefa.titulo.toLowerCase().includes(campo.inputDescricao!.toLowerCase())
-      );
-
-      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
-        filteredDadosTarefa => filteredDadosTarefa.descricao.toLowerCase().includes(campo.inputDescricao!.toLowerCase())
+        filteredDadosTarefa => filteredDadosTarefa.titulo.toLowerCase().includes(campo.inputDescricao!.toLowerCase()) || filteredDadosTarefa.descricao.toLowerCase().includes(campo.inputDescricao!.toLowerCase())
       );
     }
     if(campo.inputStatus != ''){

@@ -64,7 +64,6 @@ export class TarefaService {
       prazo: tarefa.prazo,
       funcionario_id: tarefa.funcionario.id
     };
-
     const data1 = await fetch(this.url,{
       method: 'PUT',
       headers: {
@@ -72,7 +71,6 @@ export class TarefaService {
       },
       body: JSON.stringify(tarefaConcluida)
     });
-    this.router.navigate(['']);
   }
 
   async deleteById(id: number){

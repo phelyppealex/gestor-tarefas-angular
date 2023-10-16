@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TarefaService } from '../tarefa.service';
 import { DadosTarefaRequest, DadosTarefaResponse } from '../dados-tarefa';
@@ -16,6 +16,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     CommonModule
   ],
   template: `
+    <h4>Editar tarefa</h4>
+
     <form [formGroup]="aplicaForm" (submit)="submeterForm()">
       <div class="form-floating">
         <input type="text" class="form-control" name="" id="input-titulo" formControlName="inputTitulo" [(ngModel)]="dadoTarefa.titulo">
@@ -29,7 +31,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
       </div>
       <br>
 
-      <label for="input-status"></label>
+      <label class="form-label" for="input-status">Status</label>
       <select class="form-select" [(ngModel)]="dadoTarefa.status" id="input-status" formControlName="inputStatus">
         <option value="Em andamento">Em andamento</option>
         <option value="Concluída">Concluída</option>
@@ -55,20 +57,23 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   `,
   styleUrls: ['./editar-tarefa.component.css']
 })
-export class EditarTarefaComponent {
+export class EditarTarefaComponent{
   route: ActivatedRoute = inject(ActivatedRoute);
+  readonly pathParam: number;
+
   tarefaService: TarefaService = inject(TarefaService);
+  dadoTarefa!: DadosTarefaResponse;
+
   funcionarioService: FuncionarioService = inject(FuncionarioService);
   dadosFuncionarioList: DadosFuncionario[] = [];
-  readonly pathParam: number;
-  dadoTarefa!: DadosTarefaResponse;
+  
   aplicaForm = new FormGroup({
     inputId: new FormControl(0),
     inputTitulo: new FormControl(''),
     inputDescricao: new FormControl(''),
     inputPrioridade: new FormControl(''),
     inputData: new FormControl(''),
-    inputFuncionario: new FormControl(),
+    inputFuncionario: new FormControl(0),
     inputStatus: new FormControl('')
   });
 
@@ -84,17 +89,20 @@ export class EditarTarefaComponent {
 
   submeterForm(){
     const campo = this.aplicaForm.value;
+    if(campo.inputFuncionario != 0){
+      let dadosTarefaAtualizado: DadosTarefaRequest = {
+        id: this.pathParam,
+        titulo: campo.inputTitulo ?? '',
+        descricao: campo.inputDescricao ?? '',
+        prioridade: campo.inputPrioridade ?? '',
+        status: campo.inputStatus ?? '',
+        prazo: campo.inputData ?? '',
+        funcionario_id: campo.inputFuncionario ?? 0
+      };
 
-    let dadosTarefaAtualizado: DadosTarefaRequest = {
-      id: this.pathParam,
-      titulo: campo.inputTitulo ?? '',
-      descricao: campo.inputDescricao ?? '',
-      prioridade: campo.inputPrioridade ?? '',
-      status: campo.inputStatus ?? '',
-      prazo: campo.inputData ?? '',
-      funcionario_id: campo.inputFuncionario
-    };
-
-    this.tarefaService.atualizar(dadosTarefaAtualizado);
+      this.tarefaService.atualizar(dadosTarefaAtualizado);
+    }else{
+      alert('Você precisa selecionar um funcionário');
+    }
   }
 }
