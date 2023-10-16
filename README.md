@@ -24,6 +24,32 @@ Primeiro certifique-se de ter baixado os dois projetos linkados anteriormente.
 ng serve
 ~~~
 
+- Agora insira a url `http://localhost:4200/` no seu navegador e explore a aplicação.
+
+## Como as requisições podem ser feitas?
+
+As requisições podem ser feitas da seguinte maneira:
+
+~~~json
+// Funcionário
+// http://localhost:8080/funcionario/
+{
+	"nome": "Anderson Costa",
+	"telefone": "(84) 99410-3474",
+	"email": "andersoncosta@gmail.com"
+}
+// Tarefa
+// http://localhost:8080/tarefa/
+{
+	"titulo": "Configurar os CORS",
+	"descricao": "É preciso configurá-lo para poder comunicar com o front",
+	"prioridade": "Média",
+	"status": "Em andamento",
+	"prazo": "2024-11-02",
+	"funcionario_id": 1
+}
+~~~
+
 ## O que foi feito?
 
 ### Back-end

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ListarTarefasComponent } from './listar-tarefas/listar-tarefas.component';
 import { CadastrarTarefaComponent } from './cadastrar-tarefa/cadastrar-tarefa.component';
-
+import { CadastrarFuncionarioComponent } from './cadastrar-funcionario/cadastrar-funcionario.component';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +10,14 @@ import { CadastrarTarefaComponent } from './cadastrar-tarefa/cadastrar-tarefa.co
   imports: [
     ListarTarefasComponent,
     CadastrarTarefaComponent,
+    CadastrarFuncionarioComponent,
     RouterModule
   ],
   template: `
     <main>
       <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
-          <a class="navbar-brand" [routerLink]="['/']" alt="Sistema de Gestão de Tarefas">SGT</a>
+          <a class="navbar-brand" href="/" alt="Sistema de Gestão de Tarefas">SGT</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
