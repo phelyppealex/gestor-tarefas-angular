@@ -26,6 +26,12 @@ Primeiro certifique-se de ter baixado os dois projetos linkados anteriormente.
 npm install
 ~~~
 
+- Instale agora o Angular CLI:
+
+~~~
+npm install -g @angular/cli
+~~~
+
 - Após a instalação dos pacotes necessários, insira o comando abaixo para rodar a aplicação.
 
 ~~~
