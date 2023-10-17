@@ -18,13 +18,21 @@ Primeiro certifique-se de ter baixado os dois projetos linkados anteriormente.
 - Agora abra sua IDE favorita e rode a aplicação.
 
 ### Angular
-- Tenha o Node.js instalado em sua máquina, abra o terminal no diretório do projeto e rode o seguinte comando no terminal:
+- Tenha o Node.js instalado em sua máquina.
+
+- Abra o terminal no diretório do projeto e instale as dependências com o comando abaixo:
+
+~~~
+npm install
+~~~
+
+- Após a instalação dos pacotes necessários, insira o comando abaixo para rodar a aplicação.
 
 ~~~
 ng serve
 ~~~
 
-- Agora insira a url `http://localhost:4200/` no seu navegador e explore a aplicação.
+- Agora coloque a url `http://localhost:4200/` no seu navegador e explore a aplicação.
 
 ## Como as requisições podem ser feitas?
 
