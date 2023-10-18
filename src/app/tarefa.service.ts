@@ -71,6 +71,7 @@ export class TarefaService {
       },
       body: JSON.stringify(tarefaConcluida)
     });
+    this.atualizarPagina();
   }
 
   async deleteById(id: number){
@@ -84,5 +85,13 @@ export class TarefaService {
         }
       }
     );
+  }
+
+  atualizarPagina(){
+    this.router.navigateByUrl('', {
+      skipLocationChange: true
+    }).then(() => {
+      window.location.reload();
+    });
   }
 }

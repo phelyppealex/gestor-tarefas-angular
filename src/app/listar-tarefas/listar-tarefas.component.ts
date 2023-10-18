@@ -18,7 +18,7 @@ import { DadosFuncionario } from '../dados-funcionario';
     <section class="filtro">
       <h4>Filtrar tarefas</h4>
 
-      <form [formGroup]="aplicarForm" (submit)="filtrarResults()">
+      <form [formGroup]="aplicarForm" (submit)="filtrarResultados()">
         <div class="form-floating">
           <input type="text" class="form-control" id="input-id" formControlName="inputId">
           <label class="form-label" for="input-id">ID</label>
@@ -66,7 +66,7 @@ import { DadosFuncionario } from '../dados-funcionario';
           <td>
             <a href="/" (click)="deletar(dadoTarefa.id)">Deletar</a>|
             <a href="/editar-tarefa/{{ dadoTarefa.id }}">Editar</a>|
-            <a href="/" (click)="concluir(dadoTarefa.id)">Concluir</a>
+            <a href="#" (click)="concluirTarefa(dadoTarefa.id)">Concluir</a>
           </td>
         </tr>
       </tbody>
@@ -105,7 +105,7 @@ export class ListarTarefasComponent {
     }
   }
 
-  concluir(id: number){
+  concluirTarefa(id: number){
     this.tarefaService.concluirTarefa(id);
   }
 
@@ -116,10 +116,10 @@ export class ListarTarefasComponent {
     campo.inputStatus = '';
     campo.inputFuncionario = 0;
 
-    this.filtrarResults();
+    this.filtrarResultados();
   }
   
-  filtrarResults(){
+  filtrarResultados(){
     const campo = this.aplicarForm.value;
     this.filteredDadosTarefaList = this.dadosTarefaList;
 
