@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { TarefaService } from '../tarefa.service';
 import { DadosTarefaResponse } from '../dados-tarefa';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { FuncionarioService } from '../funcionario.service';
 import { DadosFuncionario } from '../dados-funcionario';
 
@@ -86,18 +85,18 @@ import { DadosFuncionario } from '../dados-funcionario';
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <h6>Descrição:</h6>
+                    <h5>Descrição:</h5>
                     <p>{{ dadoTarefa.descricao }}</p><br>
-                    <h6>Prioridade:</h6>
+                    <h5>Prioridade:</h5>
                     <p>{{ dadoTarefa.prioridade }}</p><br>
-                    <h6>Status:</h6>
+                    <h5>Status:</h5>
                     <p>{{ dadoTarefa.status }}</p><br>
-                    <h6>Prazo:</h6>
+                    <h5>Prazo:</h5>
                     <p>{{ dadoTarefa.prazo }}</p><br>
-                    <h5>Responsável</h5>
-                    <h6>Nome:</h6>
+                    <h4>RESPONSÁVEL</h4>
+                    <h5>Nome:</h5>
                     <p>{{ dadoTarefa.funcionario.nome }}</p><br>
-                    <h6>Email:</h6>
+                    <h5>Email:</h5>
                     <p>{{ dadoTarefa.funcionario.email }}</p><br>
                   </div>
                   <div class="modal-footer">
@@ -132,6 +131,7 @@ export class ListarTarefasComponent {
     this.tarefaService.getTarefas().then((dadosTarefa: DadosTarefaResponse[]) => {
       this.tarefasResponse = dadosTarefa;
       this.filteredTarefasResponse = this.tarefasResponse;
+      console.log(this.tarefasResponse);
     });
     
     this.funcionarioService.getFuncionarios().then((funcionarios: DadosFuncionario[]) => {
