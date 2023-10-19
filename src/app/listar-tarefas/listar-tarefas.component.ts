@@ -94,8 +94,11 @@ import { DadosFuncionario } from '../dados-funcionario';
                     <p>{{ dadoTarefa.status }}</p><br>
                     <h6>Prazo:</h6>
                     <p>{{ dadoTarefa.prazo }}</p><br>
-                    <h6>Responsável:</h6>
+                    <h5>Responsável</h5>
+                    <h6>Nome:</h6>
                     <p>{{ dadoTarefa.funcionario.nome }}</p><br>
+                    <h6>Email:</h6>
+                    <p>{{ dadoTarefa.funcionario.email }}</p><br>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
