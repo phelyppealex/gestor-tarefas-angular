@@ -20,36 +20,36 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
     <form [formGroup]="aplicaForm" (submit)="submeterForm()">
       <div class="form-floating">
-        <input type="text" class="form-control" name="" id="input-titulo" formControlName="inputTitulo" [(ngModel)]="dadoTarefa.titulo">
+        <input type="text" class="form-control" name="" id="input-titulo" formControlName="inputTitulo" [(ngModel)]="tarefaResponse.titulo">
         <label class="form-label" for="input-titulo">Título</label>
       </div>
       <br>
 
       <div class="form-floating">
-        <input type="text" class="form-control" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao" [(ngModel)]="dadoTarefa.descricao">
+        <input type="text" class="form-control" wrap="hard" name="" id="input-descricao" formControlName="inputDescricao" [(ngModel)]="tarefaResponse.descricao">
         <label class="form-label" for="input-descricao">Descrição</label>
       </div>
       <br>
 
       <label class="form-label" for="input-status">Status</label>
-      <select class="form-select" [(ngModel)]="dadoTarefa.status" id="input-status" formControlName="inputStatus">
+      <select class="form-select" [(ngModel)]="tarefaResponse.status" id="input-status" formControlName="inputStatus">
         <option value="Em andamento">Em andamento</option>
         <option value="Concluída">Concluída</option>
       </select>
 
       <label class="form-label" for="">Prioridade</label><br>
-      <select class="form-select" [(ngModel)]="dadoTarefa.prioridade" name="" id="input-prioridade" formControlName="inputPrioridade">
+      <select class="form-select" [(ngModel)]="tarefaResponse.prioridade" name="" id="input-prioridade" formControlName="inputPrioridade">
         <option value="Baixa">Baixa</option>
         <option value="Média">Média</option>
         <option value="Alta">Alta</option>
       </select><br>
 
       <label class="form-label" for="input-data">Prazo</label><br>
-      <input type="date" class="form-control" name="" id="input-data" [(ngModel)]="dadoTarefa.prazo" formControlName="inputData"><br>
+      <input type="date" class="form-control" name="" id="input-data" [(ngModel)]="tarefaResponse.prazo" formControlName="inputData"><br>
 
-      <label class="form-label" for="input-funcionario">O responsável atualmente é <b>{{ dadoTarefa.funcionario.nome }}</b>, você pode alterar no campo abaixo:</label><br>
+      <label class="form-label" for="input-funcionario">O responsável atualmente é <b>{{ tarefaResponse.funcionario.nome }}</b>, você pode alterar no campo abaixo:</label><br>
       <select class="form-select" name="" id="input-funcionario" formControlName="inputFuncionario" required>
-        <option *ngFor="let func of dadosFuncionarioList" value="{{ func.id }}">{{ func.nome }}</option>
+        <option *ngFor="let func of funcionarios" value="{{ func.id }}">{{ func.nome }}</option>
       </select><br>
 
       <button class="btn btn-dark" type="submit">Editar Tarefa</button><br>
@@ -62,10 +62,10 @@ export class EditarTarefaComponent{
   readonly pathParam: number;
 
   tarefaService: TarefaService = inject(TarefaService);
-  dadoTarefa!: DadosTarefaResponse;
+  tarefaResponse!: DadosTarefaResponse;
 
   funcionarioService: FuncionarioService = inject(FuncionarioService);
-  dadosFuncionarioList: DadosFuncionario[] = [];
+  funcionarios: DadosFuncionario[] = [];
   
   aplicaForm = new FormGroup({
     inputId: new FormControl(0),
@@ -79,18 +79,20 @@ export class EditarTarefaComponent{
 
   constructor(){
     this.pathParam = Number(this.route.snapshot.params['id']);
-    this.tarefaService.getTarefaById(this.pathParam).then((dadoTarefa: DadosTarefaResponse) => {
-      this.dadoTarefa = dadoTarefa;
+    this.tarefaService.getTarefaById(this.pathParam).then((tarefaResponse: DadosTarefaResponse) => {
+      this.tarefaResponse = tarefaResponse;
     });
-    this.funcionarioService.getFuncionarios().then((dadosFuncionarioList: DadosFuncionario[]) => {
-      this.dadosFuncionarioList = dadosFuncionarioList;
+    this.funcionarioService.getFuncionarios().then((funcionarios: DadosFuncionario[]) => {
+      this.funcionarios = funcionarios;
     });
   }
 
   submeterForm(){
     const campo = this.aplicaForm.value;
-    if(campo.inputFuncionario != 0){
-      let dadosTarefaAtualizado: DadosTarefaRequest = {
+    if(campo.inputFuncionario == 0){
+      alert('Você precisa selecionar um funcionário');
+    }else{
+      let tarefaRequest: DadosTarefaRequest = {
         id: this.pathParam,
         titulo: campo.inputTitulo ?? '',
         descricao: campo.inputDescricao ?? '',
@@ -100,9 +102,7 @@ export class EditarTarefaComponent{
         funcionario_id: campo.inputFuncionario ?? 0
       };
 
-      this.tarefaService.atualizar(dadosTarefaAtualizado);
-    }else{
-      alert('Você precisa selecionar um funcionário');
+      this.tarefaService.atualizar(tarefaRequest);
     }
   }
 }

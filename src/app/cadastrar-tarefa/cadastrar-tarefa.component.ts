@@ -44,7 +44,7 @@ import { TarefaService } from '../tarefa.service';
 
       <label class="form-label" for="input-funcionario">Selecione o funcionário</label><br>
       <select class="form-select" name="" id="input-funcionario" formControlName="inputFuncionario">
-        <option *ngFor="let func of dadosFuncionarioList" value="{{ func.id }}">{{ func.nome }}</option>
+        <option *ngFor="let func of funcionarios" value="{{ func.id }}">{{ func.nome }}</option>
       </select><br>
 
       <button class="btn btn-dark" type="submit">Cadastrar Tarefa</button><br>
@@ -54,8 +54,11 @@ import { TarefaService } from '../tarefa.service';
 })
 export class CadastrarTarefaComponent {
   funcionarioService = inject(FuncionarioService);
+  funcionarios: DadosFuncionario[] = [];
+
   tarefaService = inject(TarefaService);
-  dadosFuncionarioList: DadosFuncionario[] = [];
+  tarefaRequest!: DadosTarefaRequest;
+  
   aplicaForm = new FormGroup({
     inputTitulo: new FormControl(''),
     inputDescricao: new FormControl(''),
@@ -63,18 +66,17 @@ export class CadastrarTarefaComponent {
     inputData: new FormControl(''),
     inputFuncionario: new FormControl()
   });
-  dadosTarefa!: DadosTarefaRequest;
 
   constructor(){
-    this.funcionarioService.getFuncionarios().then((dadosFuncionario: DadosFuncionario[]) => {
-      this.dadosFuncionarioList = dadosFuncionario;
+    this.funcionarioService.getFuncionarios().then((funcionarios: DadosFuncionario[]) => {
+      this.funcionarios = funcionarios;
     });
   }
 
   submeterForm(){
     const campo = this.aplicaForm.value;
 
-    this.dadosTarefa = {
+    this.tarefaRequest = {
       id: 0,
       titulo: campo.inputTitulo ?? '',
       descricao: campo.inputDescricao ?? '',
@@ -84,8 +86,6 @@ export class CadastrarTarefaComponent {
       funcionario_id: campo.inputFuncionario
     };
 
-    console.log(this.dadosTarefa);
-    
-    this.tarefaService.cadastrarTarefa(this.dadosTarefa);
+    this.tarefaService.cadastrarTarefa(this.tarefaRequest);
   }
 }

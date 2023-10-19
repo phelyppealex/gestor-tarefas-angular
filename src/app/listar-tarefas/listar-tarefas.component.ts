@@ -33,7 +33,7 @@ import { DadosFuncionario } from '../dados-funcionario';
 
         <label class="form-label" for="input-funcionario">Responsável: </label><br>
         <select class="form-select" name="" id="input-funcionario" formControlName="inputFuncionario">
-          <option value="{{ func.id }}" *ngFor="let func of dadosFunionarioList">{{ func.nome }}</option>
+          <option value="{{ func.id }}" *ngFor="let func of funcionarios">{{ func.nome }}</option>
         </select><br>
 
         <label class="form-label" for="input-status">Status: </label><br>
@@ -58,15 +58,51 @@ import { DadosFuncionario } from '../dados-funcionario';
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let dadoTarefa of filteredDadosTarefaList">
+        <tr *ngFor="let dadoTarefa of filteredTarefasResponse">
           <td>{{ dadoTarefa.id }}</td>
           <td>{{ dadoTarefa.titulo }}</td>
           <td>{{ dadoTarefa.funcionario.nome }}</td>
           <td>{{ dadoTarefa.status }}</td>
           <td>
-            <a href="/" (click)="deletar(dadoTarefa.id)">Deletar</a>|
-            <a href="/editar-tarefa/{{ dadoTarefa.id }}">Editar</a>|
-            <a href="#" (click)="concluirTarefa(dadoTarefa.id)">Concluir</a>
+            <a href="/" (click)="deletar(dadoTarefa.id)">
+              <button class="btn btn-secondary">Deletar</button>
+            </a>
+            <a href="/editar-tarefa/{{ dadoTarefa.id }}">
+              <button class="btn btn-secondary">Editar</button>
+            </a>
+            <a href="#" (click)="concluirTarefa(dadoTarefa.id)">
+              <button class="btn btn-secondary">Concluir</button>
+            </a>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Detalhes
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ dadoTarefa.titulo }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <h6>Descrição:</h6>
+                    <p>{{ dadoTarefa.descricao }}</p><br>
+                    <h6>Prioridade:</h6>
+                    <p>{{ dadoTarefa.prioridade }}</p><br>
+                    <h6>Status:</h6>
+                    <p>{{ dadoTarefa.status }}</p><br>
+                    <h6>Prazo:</h6>
+                    <p>{{ dadoTarefa.prazo }}</p><br>
+                    <h6>Responsável:</h6>
+                    <p>{{ dadoTarefa.funcionario.nome }}</p><br>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -76,10 +112,12 @@ import { DadosFuncionario } from '../dados-funcionario';
 })
 export class ListarTarefasComponent {
   funcionarioService: FuncionarioService = inject(FuncionarioService);
-  dadosFunionarioList: DadosFuncionario[] = [];
+  funcionarios: DadosFuncionario[] = [];
+
   tarefaService: TarefaService = inject(TarefaService);
-  dadosTarefaList: DadosTarefaResponse[] = [];
-  filteredDadosTarefaList: DadosTarefaResponse[] = [];
+  tarefasResponse: DadosTarefaResponse[] = [];
+  filteredTarefasResponse: DadosTarefaResponse[] = [];
+
   aplicarForm = new FormGroup({
     inputId: new FormControl(0),
     inputDescricao: new FormControl(''),
@@ -87,15 +125,14 @@ export class ListarTarefasComponent {
     inputFuncionario: new FormControl(0)
   });
   
-
   constructor(){
     this.tarefaService.getTarefas().then((dadosTarefa: DadosTarefaResponse[]) => {
-      this.dadosTarefaList = dadosTarefa;
-      this.filteredDadosTarefaList = this.dadosTarefaList;
+      this.tarefasResponse = dadosTarefa;
+      this.filteredTarefasResponse = this.tarefasResponse;
     });
     
-    this.funcionarioService.getFuncionarios().then((dadosFuncionario: DadosFuncionario[]) => {
-      this.dadosFunionarioList = dadosFuncionario;
+    this.funcionarioService.getFuncionarios().then((funcionarios: DadosFuncionario[]) => {
+      this.funcionarios = funcionarios;
     });
   }
 
@@ -121,26 +158,26 @@ export class ListarTarefasComponent {
   
   filtrarResultados(){
     const campo = this.aplicarForm.value;
-    this.filteredDadosTarefaList = this.dadosTarefaList;
+    this.filteredTarefasResponse = this.tarefasResponse;
 
     if(campo.inputId != 0){
-      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
-        filteredDadosTarefa => filteredDadosTarefa.id == campo.inputId
+      this.filteredTarefasResponse = this.filteredTarefasResponse.filter(
+        filteredTarefaResponse => filteredTarefaResponse.id == campo.inputId
       );
     }
     if(campo.inputFuncionario != 0){
-      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
-        filteredDadosTarefa => filteredDadosTarefa.funcionario.id == campo.inputFuncionario
+      this.filteredTarefasResponse = this.filteredTarefasResponse.filter(
+        filteredTarefaResponse => filteredTarefaResponse.funcionario.id == campo.inputFuncionario
       );
     }
     if(campo.inputDescricao != ''){
-      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
-        filteredDadosTarefa => filteredDadosTarefa.titulo.toLowerCase().includes(campo.inputDescricao!.toLowerCase()) || filteredDadosTarefa.descricao.toLowerCase().includes(campo.inputDescricao!.toLowerCase())
+      this.filteredTarefasResponse = this.filteredTarefasResponse.filter(
+        filteredTarefaResponse => filteredTarefaResponse.titulo.toLowerCase().includes(campo.inputDescricao!.toLowerCase()) || filteredTarefaResponse.descricao.toLowerCase().includes(campo.inputDescricao!.toLowerCase())
       );
     }
     if(campo.inputStatus != ''){
-      this.filteredDadosTarefaList = this.filteredDadosTarefaList.filter(
-        filteredDadosTarefa => filteredDadosTarefa.status.toLowerCase().includes(campo.inputStatus!.toLowerCase())
+      this.filteredTarefasResponse = this.filteredTarefasResponse.filter(
+        filteredTarefaResponse => filteredTarefaResponse.status.toLowerCase().includes(campo.inputStatus!.toLowerCase())
       );
     }
   }

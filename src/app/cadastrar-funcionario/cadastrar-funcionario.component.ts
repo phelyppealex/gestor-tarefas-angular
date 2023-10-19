@@ -40,7 +40,8 @@ import { FuncionarioService } from '../funcionario.service';
 })
 export class CadastrarFuncionarioComponent {
   funcionarioService = inject(FuncionarioService);
-  dadosFuncionario!: DadosFuncionario;
+  funcionario!: DadosFuncionario;
+
   aplicarForm = new FormGroup({
     inputNome: new FormControl(''),
     inputEmail: new FormControl(''),
@@ -50,13 +51,14 @@ export class CadastrarFuncionarioComponent {
   submeterForm(){
     const campo = this.aplicarForm.value;
 
-    this.dadosFuncionario = {
+    this.funcionario = {
       id: 0,
       nome: campo.inputNome ?? '',
       email: campo.inputEmail ?? '',
       telefone: campo.inputTelefone ?? ''
     };
-    console.log(this.dadosFuncionario);
-    this.funcionarioService.cadastrarFuncionario(this.dadosFuncionario);
+    
+    console.log(this.funcionario);
+    this.funcionarioService.cadastrarFuncionario(this.funcionario);
   }
 }
